@@ -67,7 +67,7 @@ namespace MySql.Data.Types
     {
       Single v = val as Single? ?? Convert.ToSingle(val);
       if (binary)
-        packet.Write(BitConverter.GetBytes(v));
+        packet.Write(PacketBitConverter.GetBytes(v));
       else
         packet.WriteStringNoNull(v.ToString("R", CultureInfo.InvariantCulture));
     }
@@ -81,7 +81,7 @@ namespace MySql.Data.Types
       {
         byte[] b = new byte[4];
         packet.Read(b, 0, 4);
-        return new MySqlSingle(BitConverter.ToSingle(b, 0));
+        return new MySqlSingle(PacketBitConverter.ToSingle(b, 0));
       }
       return new MySqlSingle(Single.Parse(packet.ReadString(length),
      CultureInfo.InvariantCulture));

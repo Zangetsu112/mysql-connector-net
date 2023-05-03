@@ -30,6 +30,7 @@ using MySql.Data.Authentication.GSSAPI;
 using MySql.Data.Authentication.SSPI;
 using System;
 using System.Text;
+using MySql.Data.MySqlClient;
 
 namespace MySql.Data.MySqlClient.Authentication
 {
@@ -56,10 +57,10 @@ namespace MySql.Data.MySqlClient.Authentication
       // string<VAR> SPN string
       // int<2> User Principal Name realm string length
       // string<VAR> User Principal Name realm string
-      short servicePrincipalNameLength = BitConverter.ToInt16(data, 0);
+      short servicePrincipalNameLength = PacketBitConverter.ToInt16(data, 0);
       if (servicePrincipalNameLength > data.Length) return; // not an AuthSwitchRequest
       _servicePrincipal = Encoding.GetString(data, 2, servicePrincipalNameLength);
-      short userPrincipalRealmLength = BitConverter.ToInt16(data, servicePrincipalNameLength + 2);
+      short userPrincipalRealmLength = PacketBitConverter.ToInt16(data, servicePrincipalNameLength + 2);
       _realm = Encoding.GetString(data, servicePrincipalNameLength + 4, userPrincipalRealmLength);
     }
 

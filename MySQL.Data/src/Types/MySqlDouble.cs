@@ -65,7 +65,7 @@ namespace MySql.Data.Types
     {
       double v = val as double? ?? Convert.ToDouble(val);
       if (binary)
-        packet.Write(BitConverter.GetBytes(v));
+        packet.Write(PacketBitConverter.GetBytes(v));
       else
         packet.WriteStringNoNull(v.ToString("R", CultureInfo.InvariantCulture));
     }
@@ -80,7 +80,7 @@ namespace MySql.Data.Types
       {
         byte[] b = new byte[8];
         packet.Read(b, 0, 8);
-        return new MySqlDouble(BitConverter.ToDouble(b, 0));
+        return new MySqlDouble(PacketBitConverter.ToDouble(b, 0));
       }
       string s = packet.ReadString(length);
       double d;
